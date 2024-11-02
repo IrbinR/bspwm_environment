@@ -1,0 +1,32 @@
+#! /bin/sh
+
+xrandr -s 1360x768
+#$HOME/.config/bspwm/resolucion.sh
+pkill sxhkd
+pkill picom
+pkill dunst
+pkill xautolock
+pgrep -x sxhkd >/dev/null || sxhkd &
+pgrep -x picom >/dev/null || picom -f --daemon --config "${HOME}/.config/picom/picom.conf" &
+pgrep -x mpd >/dev/null || mpd
+pgrep -x dunst >/dev/null || dunst &
+xautolock -time 10 -locker "betterlockscreen -l blur" -notify 30 -notifier "notify-send 'locker' 'Bloqueando la pantalla en 30 segundos'" -killtime 5 -killer "systemctl suspend" &
+
+#nitrogen --restore &
+feh --bg-scale ~/Descargas/toji-fushiguro-digital-jujutsu-kaisen2.jpg
+#bspc monitor -d I II III IV V VI VII VIII IX X
+bspc monitor -d I II III IV V VI
+$HOME/.config/polybar/launch.sh
+
+bspc config border_width 0
+bspc config window_gap 12
+
+bspc config split_ratio 0.52
+bspc config borderless_monocle true
+bspc config gapless_monocle false
+
+bspc rule -a Gimp desktop='^8' state=floating follow=on
+bspc rule -a Chromium desktop='^2'
+bspc rule -a mplayer2 state=floating
+bspc rule -a Kupfer.py focus=on
+bspc rule -a Screenkey manage=off
