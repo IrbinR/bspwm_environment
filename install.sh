@@ -11,9 +11,8 @@ install_node() {
   fnm install --lts
 }
 
-
-install_git() { 
-	sudo pacman -S git --noconfirm 
+install_git() {
+  sudo pacman -S git --noconfirm
 }
 
 installer_package() {
@@ -24,22 +23,22 @@ installer_package() {
     if ! pacman -Q "$condition" &>/dev/null && "$nodeConditon"; then
       install_git
       install_node
-      elif ! pacman -Q "$1"; then
-        install_git
-      elif "$nodeConditon"; then
-        install_node
+    elif ! pacman -Q "$1"; then
+      install_git
+    elif "$nodeConditon"; then
+      install_node
     fi
   elif [[ $condition == "1" ]]; then
     if ! pacman -Q "$package"; then
       if [[ $package == "broot" ]]; then
         broot_installer
-      else 
-        sudo pacman -Q "$package"              
+      else
+        sudo pacman -Q "$package"
       fi
     fi
   elif [[ $condition == "2" ]]; then
     if ! yay -Q "$package"; then
-      yay -S "$package" --noconfirm  
+      yay -S "$package" --noconfirm
     fi
   fi
 }
@@ -60,11 +59,11 @@ github() {
   if [[ $option -eq 1 ]]; then
     git clone "$repo" "$path"
   else
-    rm -rf "$path"    
+    rm -rf "$path"
   fi
 }
 
-mpd_path(){
+mpd_path() {
   source "$HOME"/.config/user-dirs.dirs
 
   if [[ -z "$XDG_MUSIC_DIR" ]]; then
@@ -89,7 +88,7 @@ rofi_theme() {
   source $HOME/.config/user-dirs.dirs
   PATH_ROFI=$XDG_DOWNLOAD_DIR/githubInstaller
   github 1 $1
-  chmod +x "$PATH_ROFI/setup.sh" 
+  chmod +x "$PATH_ROFI/setup.sh"
   sed -i "s|DIR=\`pwd\`|DIR='$PATH_ROFI'|" "$PATH_ROFI/setup.sh"
   github 2
 }
@@ -115,11 +114,11 @@ bat_config() {
 alias cat='bat'
 EOL
 
-  mkdir -p "$(bat --config-dir)/themes"
-  wget -P "$(bat --config-dir)/themes" https://github.com/catppuccin/bat/raw/main/themes/Catppuccin%20Macchiato.tmTheme
-  bat cache --build
-  bat_config=$HOME/.config/bat/config
-  cat <<EOF >"$bat_config"
+    mkdir -p "$(bat --config-dir)/themes"
+    wget -P "$(bat --config-dir)/themes" https://github.com/catppuccin/bat/raw/main/themes/Catppuccin%20Macchiato.tmTheme
+    bat cache --build
+    bat_config=$HOME/.config/bat/config
+    cat <<EOF >"$bat_config"
 --theme="Catppuccin Macchiato"
 EOF
   fi
@@ -232,7 +231,7 @@ EOF
     path="$HOME/.zimrc"
     sed -i "s|zmodule asciiship|#zmodule asciiship|" "$path"
 
-  source $HOME/.config/user-dirs.dirs
+    source $HOME/.config/user-dirs.dirs
     sudo pacman -S starship --noconfirm
     cat <<EOF >>"$HOME/.zshrc"
   # ====================================================
@@ -249,12 +248,12 @@ fonts_installer() {
   directory1="/usr/share/fonts/OTF/"
   directory2="/usr/share/fonts/TTF/"
   if [[ ! -d "$directory1" ]]; then
-    mkdir "$directory1"    
+    mkdir "$directory1"
   fi
   sudo cp -r "$path_fonts/OTF" "$directory1"
 
   if [[ ! -d "$directory2" ]]; then
-    mkdir "$directory2"    
+    mkdir "$directory2"
   fi
   sudo cp -r "$path_fonts/TTF" "$directory2"
   sudo fc-cache -f -v
@@ -287,36 +286,35 @@ music_installer
 
 wallpaper_installer
 
-repositorios=(https://aur.archlinux.org/yay.git "curl -fsSL https://raw.githubusercontent.com/zimfw/install/master/install.zsh | zsh" "https://github.com/adi1090x/rofi.git" "https://github.com/LazyVim/starter ~/.config/nvim")
+repositorios=(https://aur.archlinux.org/yay.git "curl -fsSL https://raw.githubusercontent.com/zimfw/install/master/install.zsh | zsh" "https://github.com/adi1090x/rofi.git")
 
 pacman_package=("git node" "1 bspwm" "1 rofi" "1 dunst" "1 kitty" "1 mpd" "1 ncmpcpp" "1 neofetch" "1 feh" "1 neovim" "1 pcmanfm" "1 picom" "1 polybar" "1 yazi" "1 htop" "1 lsd" "1 bat" "1 scrot" "1 xautolock")
 
 for package in "${pacman_package[@]}"; do
-  read -r arg1 arg2 <<< "$package" 
+  read -r arg1 arg2 <<<"$package"
   installer_package "$arg1" "$arg2"
 done
 
 pathFolder=$(pwd)/config
 appConfig=(bspwm dunst kitty mpd ncmpcpp neofetch picom polybar rofi nvim bat lsd)
 
-for app in "${appConfig[@]}";
-do
+for app in "${appConfig[@]}"; do
   if [[ ! $app == "rofi" && ! $app == "bat" && ! $app == "lsd" ]]; then
-    cp -rf "$pathFolder/$app" "$HOME/.config/" 
+    cp -rf "$pathFolder/$app" "$HOME/.config/"
   fi
 
   if [[ $app == "mpd" ]]; then
     mpd_path
   elif [[ $app == "ncmpcpp" ]]; then
-    ncmpcpp_path 
+    ncmpcpp_path
   elif [[ $app == "rofi" ]]; then
-    rofi_theme
+    rofi_theme "${repositorios[2]}"
   elif [[ $app == "nvim" ]]; then
     lazyvim_installer
   elif [[ $app == "bat" ]]; then
     bat_config
   elif [[ $app == "lsd" ]]; then
-    lsd_config 
+    lsd_config
   fi
 
 done
@@ -324,14 +322,13 @@ done
 yay_package="2 betterlockscreen"
 
 # INSTALACION YAY
-github 1 "$repositorios[0]"
+github 1 "${repositorios[0]}"
 cd $XDG_DOWNLOAD_DIR/githubInstaller && makepkg -sri
 cd
 github 2
 
 installer_package "$yay_package"
 cp -rf "$pathFolder" "$HOME/.config/"
-
 
 cat <<EOF
 
