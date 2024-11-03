@@ -180,7 +180,7 @@ zsh_installer() {
     sudo pacman -S zsh --noconfirm
     cat <<EOF >$LOGFILE
   1
-  EOF
+EOF
   fi
 
   # Paso 2: Cambiar la shell por defecto
@@ -190,11 +190,11 @@ zsh_installer() {
     if [[ ! -f "$HOME/.zshrc" ]]; then
       cat <<EOF >"$HOME/.zshrc"
   # Zsh configuration file created automatically
-  EOF
+EOF
     fi
     cat <<EOF >>$LOGFILE
   2
-  EOF
+EOF
 
     cat <<EOF
   ===============================================================
@@ -204,7 +204,7 @@ zsh_installer() {
   este mismo script para continuar con la instalación.
 
   ===============================================================
-  EOF
+EOF
     read -p "Presione ENTER para cerrar sesión "
     kill -9 -1
   fi
@@ -215,7 +215,7 @@ zsh_installer() {
   ===============================================================
   |              CONTINUANDO CON LA INSTALACION                 |
   ===============================================================
-  EOF
+EOF
     zimfw_cmd="curl -fsSL https://raw.githubusercontent.com/zimfw/install/master/install.zsh | zsh"
     if pacman -Q curl; then
       eval "$zimfw_cmd"
@@ -226,7 +226,7 @@ zsh_installer() {
 
     cat <<EOF >>$LOGFILE
   3
-  EOF
+EOF
   fi
 
   if [[ "$LAST_STEP" -lt 4 ]]; then
@@ -240,7 +240,7 @@ zsh_installer() {
   # |                      STARSHIP                    |
   # ====================================================
   eval "\$(starship init zsh)"
-  EOF
+EOF
   fi
 
 }
@@ -310,7 +310,7 @@ do
     mpd_path
   elif [[ $app == "ncmpcpp" ]]; then
     ncmpcpp_path 
-  elif [[ $app == "rofi"]]; then
+  elif [[ $app == "rofi" ]]; then
     rofi_theme
   elif [[ $app == "nvim" ]]; then
     lazyvim_installer
