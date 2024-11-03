@@ -5,48 +5,47 @@ install_node() {
   curl -fsSL https://fnm.vercel.app/install | bash
 
   # activar fnm
-  source $HOME/.zshrc
+  source "$HOME/.zshrc"
 
   # Obtener la última versión LTS de Nodejs
   fnm install --lts
 }
 
 
-install_git() { sudo pacman -S git --noconfirm }
+install_git() { 
+	sudo pacman -S git --noconfirm 
+}
 
 installer_package() {
   condition=$1
   package=$2
   if [[ $condition == "git" && $package == "node" ]]; then
-    nodeConditon=(! pacman -Q "$package" &>/dev/null || ! pacman -Q "nodejs" &>/dev/null || ! command -v "$package" &>/dev/null || ! command -v "nodejs" &>/dev/null)
-    if ! pacman -Q "$condition" &>/dev/null && eval "$nodeConditon"; then
+    nodeConditon=$(! pacman -Q "$package" &>/dev/null || ! pacman -Q "nodejs" &>/dev/null || ! command -v "$package" &>/dev/null || ! command -v "nodejs" &>/dev/null)
+    if ! pacman -Q "$condition" &>/dev/null && "$nodeConditon"; then
       install_git
       install_node
-      elif ! pacman -Q $1; then
+      elif ! pacman -Q "$1"; then
         install_git
-      elif eval "$nodeConditon"; then
-        install_node       
-
+      elif "$nodeConditon"; then
+        install_node
     fi
   elif [[ $condition == "1" ]]; then
-    if ! pacman -Q $package; then
+    if ! pacman -Q "$package"; then
       if [[ $package == "broot" ]]; then
         broot_installer
       else 
-        sudo pacman -Q $package              
+        sudo pacman -Q "$package"              
       fi
     fi
   elif [[ $condition == "2" ]]; then
-    if ! yay -Q $package; then
-      yay -S $package --noconfirm
-      
+    if ! yay -Q "$package"; then
+      yay -S "$package" --noconfirm  
     fi
-
   fi
 }
 
 verification_user-dirs() {
-  source $HOME/.config/user-dirs.dirs
+  source "$HOME"/.config/user-dirs.dirs
   if [[ -z "$XDG_DOWNLOAD_DIR" ]]; then
     echo "No existe el archivo user-dirs.dirs."
     exit 1
@@ -66,7 +65,7 @@ github() {
 }
 
 mpd_path(){
-  source $HOME/.config/user-dirs.dirs
+  source "$HOME"/.config/user-dirs.dirs
 
   if [[ -z "$XDG_MUSIC_DIR" ]]; then
     echo "Error: La variable XDG_MUSIC_DIR no está definida."
@@ -79,7 +78,7 @@ mpd_path(){
 }
 
 ncmpcpp_path() {
-  source $HOME/.config/user-dirs.dirs
+  source "$HOME"/.config/user-dirs.dirs
 
   NCMPCPP_CONFIG="$HOME/.config/ncmpcpp/config"
 
@@ -198,7 +197,7 @@ EOF
 
     cat <<EOF
   ===============================================================
-  | 	   Instrucción después de cerrar sesión		                |
+  | 	   Instrucción después de cerrar sesión		        |
   ===============================================================
   Se cerrara sesión, vuelva a ingresar, después ejecute nuevamente
   este mismo script para continuar con la instalación.
@@ -317,15 +316,10 @@ do
   elif [[ $app == "bat" ]]; then
     bat_config
   elif [[ $app == "lsd" ]]; then
-    lsd_config
-      
-    
+    lsd_config 
   fi
 
 done
-
-
-
 
 yay_package="2 betterlockscreen"
 
@@ -342,17 +336,10 @@ cp -rf "$pathFolder" "$HOME/.config/"
 cat <<EOF
 
 ===============================================================
-|                   INSTALACION COMPLETADA	                  |
+|                   INSTALACION COMPLETADA	              |
 ===============================================================
 Ejecute en una nueva terminal el siguiente comando para tener 
 toda la instalación completada:
-> zimfw uninstall
+# zimfw uninstall
 EOF
 rm -rf "$LOGDIR"
-
-
-
-
-
-
-
