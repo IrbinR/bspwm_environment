@@ -26,14 +26,14 @@ installer_package() {
     elif ! pacman -Q "$1"; then
       install_git
     elif "$nodeConditon"; then
-      install_node
+	    install_node
     fi
   elif [[ $condition == "1" ]]; then
     if ! pacman -Q "$package"; then
       if [[ $package == "broot" ]]; then
         broot_installer
       else
-        sudo pacman -Q "$package"
+        sudo pacman -S "$package" --noconfirm
       fi
     fi
   elif [[ $condition == "2" ]]; then
@@ -262,7 +262,7 @@ fonts_installer() {
 music_installer() {
   source $HOME/.config/user-dirs.dirs
   path_music=$(pwd)/assets/music
-  cp -r "$path_music/*" "$XDG_MUSIC_DIR"
+  cp -r "$path_music/"* "$XDG_MUSIC_DIR"
 }
 
 wallpaper_installer() {
@@ -322,6 +322,7 @@ done
 yay_package="2 betterlockscreen"
 
 # INSTALACION YAY
+sudo pacman -S base-devel --noconfirm --needed
 github 1 "${repositorios[0]}"
 cd $XDG_DOWNLOAD_DIR/githubInstaller && makepkg -sri
 cd
