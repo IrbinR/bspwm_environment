@@ -117,8 +117,8 @@ EOL
     mkdir -p "$(bat --config-dir)/themes"
     wget -P "$(bat --config-dir)/themes" https://github.com/catppuccin/bat/raw/main/themes/Catppuccin%20Macchiato.tmTheme
     bat cache --build
-    bat_config=$HOME/.config/bat/config
-    cat <<EOF >"$bat_config"
+    path_bat=$HOME/.config/bat/config
+    cat <<EOF >"$path_bat"
 --theme="Catppuccin Macchiato"
 EOF
   fi
@@ -196,7 +196,7 @@ EOF
 
     cat <<EOF
   ===============================================================
-  | 	   Instrucción después de cerrar sesión		        |
+  | 	       Instrucción después de cerrar sesión		            |
   ===============================================================
   Se cerrara sesión, vuelva a ingresar, después ejecute nuevamente
   este mismo script para continuar con la instalación.
@@ -248,12 +248,12 @@ fonts_installer() {
   directory1="/usr/share/fonts/OTF/"
   directory2="/usr/share/fonts/TTF/"
   if [[ ! -d "$directory1" ]]; then
-    mkdir "$directory1"
+    sudo mkdir "$directory1"
   fi
   sudo cp -r "$path_fonts/OTF" "$directory1"
 
   if [[ ! -d "$directory2" ]]; then
-    mkdir "$directory2"
+    sudo mkdir "$directory2"
   fi
   sudo cp -r "$path_fonts/TTF" "$directory2"
   sudo fc-cache -f -v
@@ -333,7 +333,7 @@ cp -rf "$pathFolder" "$HOME/.config/"
 cat <<EOF
 
 ===============================================================
-|                   INSTALACION COMPLETADA	              |
+|                   INSTALACION COMPLETADA	                  |
 ===============================================================
 Ejecute en una nueva terminal el siguiente comando para tener 
 toda la instalación completada:
