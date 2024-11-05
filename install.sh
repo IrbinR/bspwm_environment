@@ -5,7 +5,7 @@ install_node() {
   curl -fsSL https://fnm.vercel.app/install | bash
 
   # activar fnm
-  source "$HOME/.zshrc"
+  source "$HOME"/.zshrc
 
   # Obtener la última versión LTS de Nodejs
   fnm install --lts

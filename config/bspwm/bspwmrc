@@ -13,7 +13,7 @@ pgrep -x dunst >/dev/null || dunst &
 xautolock -time 10 -locker "betterlockscreen -l blur" -notify 30 -notifier "notify-send 'locker' 'Bloqueando la pantalla en 30 segundos'" -killtime 5 -killer "systemctl suspend" &
 
 #nitrogen --restore &
-feh --bg-scale ~/Descargas/toji-fushiguro-digital-jujutsu-kaisen2.jpg
+feh --bg-scale ~/Imágenes/wallpaper/toji-fushiguro-digital-jujutsu-kaisen2.jpg
 #bspc monitor -d I II III IV V VI VII VIII IX X
 bspc monitor -d I II III IV V VI
 $HOME/.config/polybar/launch.sh
