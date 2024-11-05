@@ -26,7 +26,7 @@ installer_package() {
     elif ! pacman -Q "$1"; then
       install_git
     elif "$nodeConditon"; then
-	    install_node
+      install_node
     fi
   elif [[ $condition == "1" ]]; then
     if ! pacman -Q "$package"; then
@@ -250,12 +250,12 @@ fonts_installer() {
   if [[ ! -d "$directory1" ]]; then
     sudo mkdir "$directory1"
   fi
-  sudo cp -r "$path_fonts/OTF" "$directory1"
+  sudo cp -r "$path_fonts/OTF/"* "$directory1"
 
   if [[ ! -d "$directory2" ]]; then
     sudo mkdir "$directory2"
   fi
-  sudo cp -r "$path_fonts/TTF" "$directory2"
+  sudo cp -r "$path_fonts/TTF/"* "$directory2"
   sudo fc-cache -f -v
 }
 
@@ -288,7 +288,7 @@ wallpaper_installer
 
 repositorios=(https://aur.archlinux.org/yay.git "curl -fsSL https://raw.githubusercontent.com/zimfw/install/master/install.zsh | zsh" "https://github.com/adi1090x/rofi.git")
 
-pacman_package=("git node" "1 bspwm" "1 rofi" "1 dunst" "1 kitty" "1 mpd" "1 ncmpcpp" "1 neofetch" "1 feh" "1 neovim" "1 pcmanfm" "1 picom" "1 polybar" "1 yazi" "1 htop" "1 lsd" "1 bat" "1 scrot" "1 xautolock")
+pacman_package=("git node" "1 bspwm" "1 rofi" "1 dunst" "1 kitty" "1 mpd" "1 ncmpcpp" "1 neofetch" "1 feh" "1 neovim" "1 pcmanfm" "1 picom" "1 polybar" "1 yazi" "1 htop" "1 lsd" "1 bat" "1 scrot" "1 xautolock" "1 sxhkd" "1 lxappearance")
 
 for package in "${pacman_package[@]}"; do
   read -r arg1 arg2 <<<"$package"
