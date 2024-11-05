@@ -85,8 +85,9 @@ ncmpcpp_path() {
 }
 
 rofi_theme() {
-  source $HOME/.config/user-dirs.dirs
+  source "$HOME"/.config/user-dirs.dirs
   PATH_ROFI=$XDG_DOWNLOAD_DIR/githubInstaller
+  sudo pacman -S inetutils --noconfirm --needed
   github 1 $1
   chmod +x "$PATH_ROFI/setup.sh"
   sed -i "s|DIR=\`pwd\`|DIR='$PATH_ROFI'|" "$PATH_ROFI/setup.sh"
@@ -127,7 +128,7 @@ EOF
 broot_installer() {
   sudo pacman -S broot --noconfirm
   echo -e "y\n" | broot
-  source $HOME/.zshrc
+  source "$HOME"/.zshrc
   ZSHRC_FILE="$HOME/.zshrc"
 
   if ! grep -E "^# \|\s+BROOT\s+\|$" "$ZSHRC_FILE"; then
@@ -231,7 +232,7 @@ EOF
     path="$HOME/.zimrc"
     sed -i "s|zmodule asciiship|#zmodule asciiship|" "$path"
 
-    source $HOME/.config/user-dirs.dirs
+    source "$HOME"/.config/user-dirs.dirs
     sudo pacman -S starship --noconfirm
     cat <<EOF >>"$HOME/.zshrc"
   # ====================================================
@@ -260,13 +261,13 @@ fonts_installer() {
 }
 
 music_installer() {
-  source $HOME/.config/user-dirs.dirs
+  source "$HOME"/.config/user-dirs.dirs
   path_music=$(pwd)/assets/music
   cp -r "$path_music/"* "$XDG_MUSIC_DIR"
 }
 
 wallpaper_installer() {
-  source $HOME/.config/user-dirs.dirs
+  source "$HOME"/.config/user-dirs.dirs
   path_wallpaper=$(pwd)/assets/wallpaper
   cp -r "$path_wallpaper" "$XDG_PICTURES_DIR"
 }
