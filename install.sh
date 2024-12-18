@@ -37,8 +37,8 @@ installer_package() {
       fi
     fi
   elif [[ $condition == "2" ]]; then
-    if ! yay -Q "$package"; then
-      yay -S "$package" --noconfirm
+    if ! paru -Q "$package"; then
+      paru -S "$package" --noconfirm
     fi
   fi
 }
@@ -287,7 +287,7 @@ music_installer
 
 wallpaper_installer
 
-repositorios=(https://aur.archlinux.org/yay.git "curl -fsSL https://raw.githubusercontent.com/zimfw/install/master/install.zsh | zsh" "https://github.com/adi1090x/rofi.git")
+repositorios=(https://aur.archlinux.org/paru.git "curl -fsSL https://raw.githubusercontent.com/zimfw/install/master/install.zsh | zsh" "https://github.com/adi1090x/rofi.git")
 
 pacman_package=("git node" "1 bspwm" "1 rofi" "1 dunst" "1 kitty" "1 mpd" "1 ncmpcpp" "1 neofetch" "1 feh" "1 neovim" "1 pcmanfm" "1 picom" "1 polybar" "1 yazi" "1 htop" "1 lsd" "1 bat" "1 scrot" "1 xautolock" "1 sxhkd" "1 lxappearance")
 
@@ -320,16 +320,16 @@ for app in "${appConfig[@]}"; do
 
 done
 
-yay_package="2 betterlockscreen"
+paru_package="2 betterlockscreen"
 
-# INSTALACION YAY
+# INSTALACION PARU
 sudo pacman -S base-devel --noconfirm --needed
 github 1 "${repositorios[0]}"
 cd $XDG_DOWNLOAD_DIR/githubInstaller && makepkg -sri
 cd
 github 2
 
-installer_package "$yay_package"
+installer_package "$paru_package"
 cp -rf "$pathFolder" "$HOME/.config/"
 
 cat <<EOF
