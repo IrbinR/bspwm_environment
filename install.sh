@@ -19,13 +19,13 @@ installer_package() {
   condition=$1
   package=$2
   if [[ $condition == "git" && $package == "node" ]]; then
-    nodeConditon=$(! pacman -Q "$package" &>/dev/null || ! pacman -Q "nodejs" &>/dev/null || ! command -v "$package" &>/dev/null || ! command -v "nodejs" &>/dev/null)
-    if ! pacman -Q "$condition" &>/dev/null && "$nodeConditon"; then
+    nodeConditon='! pacman -Q "$package" &>/dev/null || ! pacman -Q "nodejs" &>/dev/null || ! command -v "$package" &>/dev/null || ! command -v "nodejs" &>/dev/null'
+    if ! pacman -Q "$condition" &>/dev/null && eval "$nodeConditon"; then
       install_git
       install_node
     elif ! pacman -Q "$1"; then
       install_git
-    elif "$nodeConditon"; then
+    elif eval "$nodeConditon"; then
       install_node
     fi
   elif [[ $condition == "1" ]]; then
