@@ -2,7 +2,7 @@
 
 install_node() {
   # Instalar fnm (Fast Node Manager)
-  curl -fsSL https://fnm.vercel.app/install | bash
+  curl -o- https://fnm.vercel.app/install | bash
 
   # activar fnm
   source "$HOME"/.zshrc
@@ -29,7 +29,7 @@ installer_package() {
       install_node
     fi
   elif [[ $condition == "1" ]]; then
-    if ! pacman -Q "$package"; then
+    if [[ ! $(pacman -Q "$package") ]]; then
       if [[ $package == "broot" ]]; then
         broot_installer
       else
@@ -37,7 +37,7 @@ installer_package() {
       fi
     fi
   elif [[ $condition == "2" ]]; then
-    if ! paru -Q "$package"; then
+    if [[ ! $(paru -Q "$package") ]]; then
       paru -S "$package" --noconfirm
     fi
   fi
@@ -116,6 +116,9 @@ alias cat='bat'
 EOL
 
     mkdir -p "$(bat --config-dir)/themes"
+    if [[ ! $(pacman -Q wget) ]]; then
+      sudo pacman -S wget --noconfirm
+    fi
     wget -P "$(bat --config-dir)/themes" https://github.com/catppuccin/bat/raw/main/themes/Catppuccin%20Macchiato.tmTheme
     bat cache --build
     path_bat=$HOME/.config/bat/config
@@ -216,7 +219,7 @@ EOF
   ===============================================================
 EOF
     zimfw_cmd="curl -fsSL https://raw.githubusercontent.com/zimfw/install/master/install.zsh | zsh"
-    if pacman -Q curl; then
+    if [[ $(pacman -Q curl) ]]; then
       eval "$zimfw_cmd"
     else
       sudo pacman -S curl --noconfirm
