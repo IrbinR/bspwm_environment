@@ -91,6 +91,7 @@ rofi_theme() {
   github 1 $1
   chmod +x "$PATH_ROFI/setup.sh"
   sed -i "s|DIR=\`pwd\`|DIR='$PATH_ROFI'|" "$PATH_ROFI/setup.sh"
+  ./"$PATH_ROFI"/setup.sh
   github 2
 }
 
@@ -147,7 +148,7 @@ EOL
 }
 
 lsd_config() {
-  ZSHRC_FILE="$HOME/.bashrc"
+  ZSHRC_FILE="$HOME/.zshrc"
 
   # Comprobar si los aliases ya están presentes
   if ! grep -E -q "^# \|\s+ALIAS LSD\s+\|$" "$ZSHRC_FILE"; then
@@ -275,6 +276,9 @@ wallpaper_installer() {
   cp -r "$path_wallpaper" "$XDG_PICTURES_DIR"
 }
 
+# ===================================================================================
+# |                           INICIO DE LA INSTALACION                              |
+# ===================================================================================
 verification_user-dirs
 
 #Usar un directorio en el hogar para almacenar el log
@@ -292,7 +296,7 @@ wallpaper_installer
 
 repositorios=(https://aur.archlinux.org/paru.git "curl -fsSL https://raw.githubusercontent.com/zimfw/install/master/install.zsh | zsh" "https://github.com/adi1090x/rofi.git")
 
-pacman_package=("git node" "1 bspwm" "1 rofi" "1 dunst" "1 kitty" "1 mpd" "1 ncmpcpp" "1 neofetch" "1 feh" "1 neovim" "1 pcmanfm" "1 picom" "1 polybar" "1 yazi" "1 htop" "1 lsd" "1 bat" "1 scrot" "1 xautolock" "1 sxhkd" "1 lxappearance")
+pacman_package=("git node" "XIAOMI NO PASA DE analisis de apps1 bspwm" "1 rofi" "1 dunst" "1 kitty" "1 mpd" "1 ncmpcpp" "1 neofetch" "1 feh" "1 neovim" "1 pcmanfm" "1 picom" "1 polybar" "1 yazi" "1 htop" "1 lsd" "1 bat" "1 scrot" "1 xautolock" "1 sxhkd" "1 lxappearance")
 
 for package in "${pacman_package[@]}"; do
   read -r arg1 arg2 <<<"$package"
@@ -303,7 +307,7 @@ pathFolder=$(pwd)/config
 appConfig=(bspwm dunst kitty mpd ncmpcpp neofetch picom polybar rofi nvim bat lsd)
 
 for app in "${appConfig[@]}"; do
-  if [[ ! $app == "rofi" && ! $app == "bat" && ! $app == "lsd" ]]; then
+  if [[ $app != "rofi" && $app != "bat" && $app != "lsd" ]]; then
     cp -rf "$pathFolder/$app" "$HOME/.config/"
   fi
 
@@ -323,7 +327,7 @@ for app in "${appConfig[@]}"; do
 
 done
 
-paru_package="2 betterlockscreen"
+paru_package=("2" "betterlockscreen")
 
 # INSTALACION PARU
 sudo pacman -S base-devel --noconfirm --needed
@@ -332,8 +336,8 @@ cd $XDG_DOWNLOAD_DIR/githubInstaller && makepkg -sri
 cd
 github 2
 
-installer_package "$paru_package"
-cp -rf "$pathFolder" "$HOME/.config/"
+installer_package "${paru_package[@]}"
+cp -rf "$pathFolder"/{betterlockscreen,sxhkd,yazi} "$HOME/.config/"
 
 cat <<EOF
 
